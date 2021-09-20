@@ -1,14 +1,12 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const cors = require("cors");
 
 const contact = require("./models/Contact")
 
-const serverapp = express()
+const serverapp = express();
+serverapp.use(cors());
 serverapp.use(express.json())
-serverapp.listen(3001, function(){
-    console.log("Server listening at port 3001.......\n")
-})
-
 
 mongoose.connect('mongodb+srv://Sameer:Rordofthelings@crud.mgcsw.mongodb.net/contacts45?retryWrites=true&w=majority')
 const db = mongoose.connection
@@ -94,3 +92,7 @@ serverapp.delete('/contacts:userid', function(req, res){
     console.log("delete this")
     console.log(req.query.userid)
 })
+
+serverapp.listen(3001, function(){
+    console.log("Server listening at port 3001.......\n")
+});
