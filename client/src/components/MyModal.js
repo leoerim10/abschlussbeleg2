@@ -1,10 +1,16 @@
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Button, FormControl, FormLabel, Input, useDisclosure, useState, Stack, Checkbox
+} from "@chakra-ui/react"
+import React from 'react';
 
-import { FormControl, FormLabel, Input, Checkbox, CheckboxGroup, Stack } from "@chakra-ui/react"
-import { useEffect, useState } from "react";
-import "axios";
-import axios from "axios";
-
-const ContactForm = (props) => {
+const MyModal = (props) => {
 
   const [firstname, setFirstname] = useState("")
   const [lastname, setLastname] = useState("")
@@ -14,51 +20,29 @@ const ContactForm = (props) => {
   const [city, setCity] = useState("")
   const [country, setCountry] = useState("")
 
-  useEffect(() => {
-    axios.get(`http://localhost:3001/contact/${props.contact_id}`)
-      .then((response) => {
-        console.log(response.data);
-        setFirstname(response.data.firstname);
-        setLastname(response.data.lastname);
-        setStreet(response.data.street);
-        setHousenumber(response.data.housenumber);
-        setPostalcode(response.data.postalcode);
-        setCity(response.data.city);
-        setCountry(response.data.country);
-      }, (err) => {
-        console.log(err);
-        
-      });
-  }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    
-    let payload = {
-      "firstname": firstname,
-      "lastname": lastname,
-      "street": street,
-      "housenumber": housenumber,
-      "postalcode": postalcode,
-      "city": city,
-      "country": country,
-    };
 
-    console.log(payload);
+function InitialFocus() {
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
-    axios.post("http://localhost:3001/contacts", payload)
-      .then((response) => {
-        console.log(response);
-      }, (err) => {
-        console.log(err);
-      });
+  const initialRef = React.useRef()
+  const finalRef = React.useRef()
 
-      // close the modal / redirect (?)
-  };
+  return (
 
-return(
-<form onSubmit={handleSubmit}>
-            <FormControl>
+    <><Button onClick={onOpen}>{props.title}</Button><>
+      <Modal
+        initialFocusRef={initialRef}
+        finalFocusRef={finalRef}
+        isOpen={isOpen}
+        onClose={onClose}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Create your account</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+          <FormControl>
                 <FormLabel>First name</FormLabel>
                 <Input placeholder="First name" onChange={(event) => {setFirstname(event.target.value)}} />
               </FormControl>
@@ -100,8 +84,20 @@ return(
                 private
               </Checkbox>
               </Stack>
+          </ModalBody>
 
-</form>)
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3}>
+              Save
+            </Button>
+            <Button onClick={onClose}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </></>
+  )
 }
-              
-export default ContactForm
+return InitialFocus();
+}
+
+  export default MyModal
