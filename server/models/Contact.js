@@ -10,12 +10,11 @@ const Contactschema = new mongoose.Schema({
     street: {
         type: String,
     },
-    houseNumber: {
-        type: Number,
+
+    plz: {
+        type: String,
     },
-    postalCode: {
-        type: Number,
-    },
+   
     city: {
         type: String,
     },
@@ -25,10 +24,13 @@ const Contactschema = new mongoose.Schema({
     owner: {
         type: String,
     },
+    privacy: {
+        type: String,
+    },
     lat: {
         type: String,
     },
-    lng: {
+    long: {
         type: String,
     },
 });

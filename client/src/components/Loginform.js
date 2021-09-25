@@ -9,18 +9,46 @@ import {
     Link,
     Heading,
     Text,
-    useColorModeValue,
+    useColorModeValue, Alert, AlertIcon
   } from '@chakra-ui/react';
   import MyButton from './Button';
   import { useHistory } from 'react-router';
+  import React, {useState} from 'react';
 
 
 
   const LoginForm2 = (props) => {
+    
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
+    const[authenticated, setAuthenticated] = useState(false)
+    
+
+    
+
     const  history = useHistory()
     function doSth(){
-
-      history.push("page2")
+      if(username === "admina" && password === "admina")
+      {
+        const location = {
+          pathname: '/Admina_Page',
+          state: { logged_in: true }
+        }
+      setAuthenticated(true)
+      history.push(location)
+      }
+      else if(username === "normalo" && password === "normalo")
+      {
+        const location = {
+          pathname: '/Normalo_Page',
+          state: { logged_in: true }
+        }
+        setAuthenticated(true)
+        history.push(location)
+      }
+      else{
+        alert("Error: Username or Password does not match.")
+      }
   
     }
   
@@ -40,13 +68,13 @@ import {
             boxShadow={'lg'}
             p={8}>
             <Stack spacing={4}>
-              <FormControl id="email" isRequired>
-                <FormLabel>Email address</FormLabel>
-                <Input type="email" />
+              <FormControl id="username" isRequired>
+                <FormLabel>User name</FormLabel>
+                <Input type="text" onChange={(event) => {setUsername(event.target.value)}} />
               </FormControl>
               <FormControl id="password" isRequired>
                 <FormLabel>Password</FormLabel>
-                <Input type="password" />
+                <Input type="password" onChange={(event) => {setPassword(event.target.value)}}/>
               </FormControl>
               <Stack spacing={10}>
                 <Stack
